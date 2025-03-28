@@ -60,11 +60,12 @@ const mutation = new GraphQLObjectType({
     deleteClient: {
       type: ClientType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLID) }
+        id: { type: GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
+        Project.find({ clientId: args.id }).deleteMany().exec();
         return Client.findByIdAndDelete(args.id);
-      }
+      },
     },
     addProject: {
       type: ProjectType,
@@ -130,6 +131,25 @@ const mutation = new GraphQLObjectType({
           }
         }, { new: true}
         );
+      }
+    },
+    // update client
+    updateClient: {
+      type: ClientType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        email: { type: GraphQLNonNull(GraphQLString) },
+        phone: { type: GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        return Client.findByIdAndUpdate(args.id, {
+          $set: {
+            name: args.name,
+            email: args.email,
+            phone: args.phone
+          }
+        }, { new: true });
       }
     }
   }

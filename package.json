@@ -18,7 +18,8 @@
     "express-graphql": "^0.12.0",
     "graphql": "^15.10.1",
     "mongodb": "^6.15.0",
-    "mongoose": "^8.13.0"
+    "mongoose": "^8.13.0",
+    "sonner": "^2.0.2"
   },
   "devDependencies": {
     "dotenv": "^16.4.7",
