@@ -1,4 +1,3 @@
-// Construct a schema
 import {
   GraphQLEnumType,
   GraphQLID,
@@ -8,8 +7,9 @@ import {
   GraphQLSchema,
   GraphQLString
 } from 'graphql';
-import Project from '../models/Project.js';
+
 import Client from '../models/Client.js';
+import Project from '../models/Project.js';
 
 const ProjectType = new GraphQLObjectType({
   name: 'Project',
@@ -107,7 +107,6 @@ const mutation = new GraphQLObjectType({
       type: ProjectType,
       args: {  
         id: { type: GraphQLNonNull(GraphQLID) },
-        //clientId: { type: GraphQLNonNull(GraphQLID) },
         name: { type: GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLNonNull(GraphQLString) },
         status: {
