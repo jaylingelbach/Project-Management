@@ -12,7 +12,6 @@ A full-stack project featuring a React front end and a GraphQL/Express back end.
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
