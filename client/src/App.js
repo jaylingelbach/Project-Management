@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 import Client from './pages/Client';
 import Header from "./components/Header";
 import Home from './pages/Home';
@@ -29,7 +30,7 @@ const cache = new InMemoryCache({
 }); 
 
 const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql',
+  uri: process.env.REACT_APP_APOLLO_URI,
   cache
 });
 
