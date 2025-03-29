@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { GET_PROJECT } from '../queries/projectQueries';
 import { UPDATE_PROJECT } from '../mutations/projectMutations';
-import { ToastContainer, toast } from 'react-toastify';
+
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function EditProjectForm({ project }) {
@@ -86,7 +87,6 @@ export default function EditProjectForm({ project }) {
           Submit
         </button>
       </form>
-      <ToastContainer />
     </div>
   );
 }

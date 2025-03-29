@@ -4,7 +4,8 @@ import { useMutation } from '@apollo/client';
 import { ADD_CLIENT } from '../mutations/clientMutations';
 import { GET_CLIENTS } from '../queries/clientQueries';
 import { IMaskInput } from 'react-imask';
-import { ToastContainer, toast } from 'react-toastify';
+
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddClientModal() {
@@ -108,13 +109,6 @@ export default function AddClientModal() {
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Phone</label>
-                  {/* <input
-                    type="text"
-                    className="form-control"
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  /> */}
                   <IMaskInput
                     mask="000-000-0000"
                     value={phone}
@@ -137,7 +131,6 @@ export default function AddClientModal() {
             </div>
           </div>
         </div>
-        <ToastContainer />
       </div>
     </>
   );

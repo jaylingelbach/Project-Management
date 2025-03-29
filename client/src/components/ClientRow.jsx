@@ -22,7 +22,7 @@ export default function ClientRow({ client }) {
       <td>
         <Link
           className="btn btn-secondary btn-sm me-2"
-          href={`/clients/${client.id}`}
+          to={`/clients/${client.id}`}
         >
           <FaEdit />
         </Link>

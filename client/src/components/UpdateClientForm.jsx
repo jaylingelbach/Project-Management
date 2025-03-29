@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { IMaskInput } from 'react-imask';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { GET_CLIENT } from '../queries/clientQueries';
 import { UPDATE_CLIENT } from '../mutations/clientMutations';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UpdateClientForm({ client }) {
   const [name, setName] = useState('');
@@ -88,7 +89,6 @@ export default function UpdateClientForm({ client }) {
           Submit
         </button>
       </form>
-      <ToastContainer />
     </div>
   );
 }

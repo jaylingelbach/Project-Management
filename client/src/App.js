@@ -1,5 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache  } from '@apollo/client';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Client from './pages/Client';
 import Header from "./components/Header";
@@ -33,21 +35,20 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <>
     <ApolloProvider client={client}>
       <Router>
-      <Header />
-    <div className="container">
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/projects/:id' element={<Project />} />
-        <Route path='/clients/:id' element={<Client />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </div>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/projects/:id' element={<Project />} />
+            <Route path='/clients/:id' element={<Client />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
+        <ToastContainer />
       </Router>
     </ApolloProvider>
-    </>
   );
 }
 
