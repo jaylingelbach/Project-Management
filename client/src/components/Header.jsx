@@ -1,3 +1,9 @@
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton
+} from '@clerk/clerk-react';
 import logo from './assets/logo.png';
 
 export default function Header() {
@@ -10,6 +16,12 @@ export default function Header() {
             <div>ProjectMgmt</div>
           </div>
         </a>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </nav>
   );

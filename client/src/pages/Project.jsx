@@ -5,6 +5,7 @@ import DeleteProjectButton from '../components/DeleteProjectButton';
 import EditProjectForm from '../components/EditProjectForm';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECT } from '../queries/projectQueries';
+import { Room } from '../pages/Room';
 
 export default function Project() {
   const { id } = useParams();
@@ -17,19 +18,21 @@ export default function Project() {
     <>
       {!loading && !error && (
         <div className="mx-auto w-75 card p-5">
-          <Link to="/" className="btn btn-light btn-sm w-25 d-inline ms-auto">
-            Back
-          </Link>
+          <Room>
+            <Link to="/" className="btn btn-light btn-sm w-25 d-inline ms-auto">
+              Back
+            </Link>
 
-          <h1>{data.project.name}</h1>
-          <p>{data.project.description}</p>
+            <h1>{data.project.name}</h1>
+            <p>{data.project.description}</p>
 
-          <h5 className="mt-3">Project Status</h5>
-          <p className="lead">{data.project.status}</p>
+            <h5 className="mt-3">Project Status</h5>
+            <p className="lead">{data.project.status}</p>
 
-          <ClientInfo client={data.project.client} />
-          <EditProjectForm project={data.project} />
-          <DeleteProjectButton projectId={data.project.id} />
+            <ClientInfo client={data.project.client} />
+            <EditProjectForm project={data.project} />
+            <DeleteProjectButton projectId={data.project.id} />
+          </Room>
         </div>
       )}
     </>
