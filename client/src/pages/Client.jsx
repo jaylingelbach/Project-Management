@@ -8,6 +8,7 @@ import { GET_CLIENT } from '../queries/clientQueries';
 export default function Client() {
   const { id } = useParams();
   const { loading, error, data } = useQuery(GET_CLIENT, { variables: { id } });
+  console.log('Client Data: ', data);
   if (loading) return <Spinner />;
   if (error) return <p>Something Went Wrong</p>;
 

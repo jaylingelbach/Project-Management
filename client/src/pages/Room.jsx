@@ -1,51 +1,55 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RoomProvider, ClientSideSuspense } from '@liveblocks/react/suspense';
 import { useParams } from 'react-router-dom';
-import { useUsers } from '../queries/userQueries';
 import { toast } from 'react-toastify';
 import { useThreads } from '@liveblocks/react';
 import { Composer, Thread } from '@liveblocks/react-ui';
 
+function RoomContent() {
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [errorUsers, setErrorUsers] = useState(null);
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const res = await fetch(`http://localhost:8000/api/clerk-users`);
+        if (!res.ok) {
+          throw new Error('Error fetching users');
+        }
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        setErrorUsers(error);
+        toast.error('Failed to fetch users');
+      } finally {
+        setLoadingUsers(false);
+      }
+    }
+    fetchUsers();
+  }, []);
+
+  // useThreads is now safely inside a RoomProvider
+  const { threads } = useThreads();
+
+  if (loadingUsers) return <div>Loading users...</div>;
+  if (errorUsers) return <div>Error loading users: {errorUsers.message}</div>;
+
+  return (
+    <ClientSideSuspense fallback={<div>Room loading...</div>}>
+      {threads &&
+        threads.map((thread) => <Thread key={thread.id} thread={thread} />)}
+      <Composer />
+    </ClientSideSuspense>
+  );
+}
+
 export function Room() {
   const params = useParams();
-  const { users, loading, error } = useUsers(params.id);
-  const { threads } = useThreads();
-  useEffect(() => {
-    if (loading) {
-      toast.info('Loading users...');
-    }
-    if (users) {
-      toast.success('Users loaded successfully');
-    }
-    if (error) {
-      toast.error('Failed to fetch users');
-    }
-  }, [error]);
-
-  // Example auth function in Room.jsx (or wherever you set authEndpoint)
-  const getRoom = async () => {
-    try {
-      const endpoint = 'http://localhost:8080/api/liveblocks-auth';
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Include cookies so Clerk can validate the session
-        body: JSON.stringify({ room: params.id })
-      });
-      return await response.json();
-    } catch (error) {
-      toast.error('Failed to fetch room');
-    }
-  };
 
   return (
     <RoomProvider id={params.id}>
-      <ClientSideSuspense fallback={<div>Room loading...</div>}>
-        {threads.map((thread) => (
-          <Thread key={thread.id} thread={thread} />
-        ))}
-        <Composer />
-      </ClientSideSuspense>
+      <RoomContent />
     </RoomProvider>
   );
 }

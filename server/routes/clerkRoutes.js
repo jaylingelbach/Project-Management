@@ -3,6 +3,6 @@ import { clerkAuth } from '../controllers/clerkController.js';
 
 const router = express.Router();
 
-router.get('/api/clerk-users', clerkAuth);
+router.get('/', clerkAuth);
 
 export default router;

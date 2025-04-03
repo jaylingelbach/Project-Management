@@ -7,6 +7,8 @@ import connectDB from './config/db.js';
 import { clerkMiddleware } from '@clerk/express'
 import authRoutes from './routes/authRoutes.js';
 import clerkRoutes from './routes/clerkRoutes.js';
+import cookieParser from 'cookie-parser';
+
 
 dotenv.config();
 
@@ -21,6 +23,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(clerkMiddleware());
 
@@ -31,7 +34,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: process.env.NODE_ENV === 'development' ? true : false, 
 }));
 
-app.get('/api/clerk-users', clerkRoutes);
+app.use('/api/clerk-users', clerkRoutes);
 
 app.post('/api/liveblocks-auth', authRoutes);
 
