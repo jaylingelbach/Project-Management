@@ -1,4 +1,5 @@
 // App.js
+import { useEffect, useMemo, useState } from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -11,6 +12,8 @@ import NotFound from './pages/NotFound';
 import Project from './pages/Project';
 import "@liveblocks/react-ui/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -33,9 +36,47 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
 
+
 function App() {
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = useMemo(
+    () => async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/clerk-users", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+        const data = await response.json();
+        console.log("Fetched users: ", data);
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    },
+    []
+  )
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
   return (
     <LiveblocksProvider
+    resolveUsers={async () => {
+      return users;
+    }}
+    resolveMentionSuggestions={async ({ text, roomId }) => {
+      let filteredUsers = users;
+      if (text) {
+        filteredUsers = users.filter((user) =>
+          user.name.toLowerCase().includes(text.toLowerCase())
+        );
+      }
+      return filteredUsers.map((user) => user.id);
+    }}
+      
+
       publicApiKey={process.env.REACT_APP_LIVEBLOCKS_PUBLIC_KEY}
       authEndpoint={async (room) => {
         const response = await fetch("http://localhost:8000/api/liveblocks-auth", {

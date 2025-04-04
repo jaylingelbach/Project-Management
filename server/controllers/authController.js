@@ -36,7 +36,7 @@ export const authEndpoint = asyncHandler(async (req, res) => {
   const session = liveblocks.prepareSession(
     userId,
     room,
-    { userInfo: { name: user.fullName || 'Anonymous' } }
+    { userInfo: { name: user.fullName || 'Anonymous' }, avatar: user.profileImageUrl },
   );
 
   if (!session) {
