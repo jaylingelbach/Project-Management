@@ -6,7 +6,7 @@ import { UPDATE_PROJECT } from '../mutations/projectMutations';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function EditProjectForm({ project }) {
+export default function EditProjectForm({ project, setShowEditForm }) {
   const [name, setName] = useState(project.name);
   const [description, setDescription] = useState(project.description);
   const [status, setStatus] = useState(() => {
@@ -41,6 +41,7 @@ export default function EditProjectForm({ project }) {
     try {
       updateProject(project.id, name, description, status);
       toast.success('Project updated successfully');
+      return setShowEditForm(false);
     } catch (error) {
       console.error(error);
     }
